@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import './App.css';
 import { Navbar,Button,Nav,NavDropdown,Form,FormControl,Jumbotron } from 'react-bootstrap';
 import Data from './data.js';
+import Detail from './detail.js'
 import {Link, Route, Switch} from 'react-router-dom';
 
 function App() {
@@ -17,8 +18,8 @@ function App() {
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Link</Nav.Link>
+      <Nav.Link > <Link to ="/"> Home </Link></Nav.Link>
+      <Nav.Link > <Link to ="/detail">Detail</Link></Nav.Link>
       <NavDropdown title="Dropdown" id="basic-nav-dropdown">
         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -45,6 +46,10 @@ function App() {
 
 {/* <Route path="어쩌구" component={Modal}></Route> */}
 
+
+
+<Switch>
+        {/* Switch : 여러개가 맞아도 하나만 보여주셈 (택1해주셈) */}
 <Route exact path="/">
     <Jumbotron className="background">
       <h1>20% Season Off</h1>
@@ -69,28 +74,27 @@ function App() {
 
     </div>
     
+</Route>
 
+<Route path="/detail/:id">
+  <Detail shoes={shoes}/>
 </Route>
-<Route path="/detail">
-  <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
-        </div>
-        <div className="col-md-6 mt-4">
-          <h4 className="pt-5">상품명</h4>
-          <p>상품설명</p>
-          <p>120000원</p>
-          <button className="btn btn-danger">주문하기</button> 
-        </div>
-      </div>
-</div> 
+
+
+
+<Route path="/:id">
+  <div>아무거나 적었을 때 이거 보애주셈</div>
 </Route>
+</Switch>
+
+
 
 
     </div>
   );
 }
+
+
 
 function Card(props){
   return(
