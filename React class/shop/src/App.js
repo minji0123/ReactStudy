@@ -37,19 +37,7 @@ function App() {
 
 
 
-{/* <Route exact path="/">
-  <div>메인페이지에요</div>
-</Route>
-<Route path="/detail">
-  <div>디테일페이지에요</div>
-</Route> */}
-
-{/* <Route path="어쩌구" component={Modal}></Route> */}
-
-
-
 <Switch>
-        {/* Switch : 여러개가 맞아도 하나만 보여주셈 (택1해주셈) */}
 <Route exact path="/">
     <Jumbotron className="background">
       <h1>20% Season Off</h1>
@@ -76,6 +64,7 @@ function App() {
     
 </Route>
 
+
 <Route path="/detail/:id">
   <Detail shoes={shoes}/>
 </Route>
@@ -86,8 +75,6 @@ function App() {
   <div>아무거나 적었을 때 이거 보애주셈</div>
 </Route>
 </Switch>
-
-
 
 
     </div>
@@ -106,7 +93,4 @@ function Card(props){
   )
 }
 
-
-// src에 넣은 파일은 파일명이 변경되고 압축됨
-// 근데 public 에 넣으면 보존됨 근데 절대경로로 사용해야됨
 export default App;
