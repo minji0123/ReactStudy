@@ -6,6 +6,7 @@ import { Navbar,Button,Nav,NavDropdown,Form,FormControl,Jumbotron } from 'react-
 import Data from './data.js';
 import Detail from './detail.js'
 import {Link, Route, Switch} from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
 
@@ -58,10 +59,26 @@ function App() {
         })
       }
       </div>
+      <button className='btn btn-primary' onClick={()=>{
 
+        // 서버에 데이터를 보내고 싶을 때 post 요청하는 법
+
+        axios.post('서버URL',{id:'sss', pw:1234});
+
+
+        axios.get('https://codingapple1.github.io/shop/data2.json')
+        .then((result)=>{
+          console.log(result.data);
+          //...연산자는 괄호를 벗겨준다. 그래서 카피본 만들어준거 기억나지??
+          shoes변경([...shoes, ...result.data] );
+        })
+        .catch(()=>{
+        });
+      }}>더보기</button>
     </div>
     
 </Route>
+
 
 
 <Route path="/detail/:id">

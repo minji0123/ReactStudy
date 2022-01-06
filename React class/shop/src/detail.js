@@ -1,4 +1,5 @@
 /* eslint-disable */
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -17,16 +18,18 @@ let 제목 = styled.h4`
 
 function Detail(props){
 
-  useEffect( ()=>{
-    console.log(1111);
-    //2초 후에 alert 창을 안보이게 해주셈
-    let 타이머 = setTimeout(()=>{alert변경 (false) },2000);
-  } );
-
-
   let [alert, alert변경] = useState(true);
-  
   let [inputData, inputData변경 ] = useState('');
+
+
+  useEffect( ()=>{
+    // detail 컴포넌트 로드 시 ajax 로 데이터를 가져오고 싶음
+    axios.get('url');
+
+    let 타이머 = setTimeout(()=>{alert변경 (false) },2000);
+    return ()=>{clearTimeout(타이머)}
+  },[]); 
+
 
   let { id } = useParams();
 
