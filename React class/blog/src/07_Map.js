@@ -4,20 +4,14 @@ import './App.css';
 
 function App() { 
     // -----------------------
-    // Props
+    // Map
     // -----------------------
+    // for 반복문은 JSX 중괄호 안에서 사용할 수 없어서 map() 을 대신 사용
     
-    // 모달 안에 글 제목 넣을고임
-    // 누른 제목을 보여줘야 함 이번에는
-
     let [글제목,set글제목] = useState(['남자 코트 추천','강남 우동 맛집','파이썬 독학']);
     let [좋아요,set좋아요] = useState( new Array(글제목.length).fill(0));
+    // let [좋아요,set좋아요] = useState( [0,0,0]);
     let [modal, setModal] = useState(false);
-
-    let [누른제목, set누른제목] = useState(0);
-
-
-
 
     function 좋아요함수(idx){
         var newArray = [...좋아요];
@@ -26,6 +20,13 @@ function App() {
     }
 
 
+    [1,2,3].map((a,i) => {
+        // 1. array 자료 개수만큼 함수안의 코드를 실행해줌
+        // 2. 파라미터
+            // 첫번째 파라미터: array 안에 있는 애들임
+            // 두번째 파라미터: 반복문 돌 때마다 0 부터 1씩 증가하는 정수
+        // 3. return 에 뭐 적으면 array 에 담아줌
+    })
 
     return (
 
@@ -34,6 +35,26 @@ function App() {
                 <h4>ReactBlog</h4>
             </div>
         
+            <button onClick={() => {
+                let copy = [...글제목];
+                copy[0] = '여자 코트 추천';
+                set글제목(copy);
+            }}>글수정</button>
+
+            <button onClick={ ()=>{ 
+                let copy = [...글제목];
+                copy.sort();
+                set글제목(copy);
+                } }> 정렬버튼 </button>
+                
+
+            {/* returnn 안에다가 중괄호 열어서 
+            삼항연산자, map 쓸 수 있음. 
+            근데 다른 자바스크립트 문법 (if, for, while )은 못씀*/}
+
+
+            {/* map으로 돌린 함수는 key={}를 안써주면 개발자도구에서 warning이 뜬다.
+                파라미터의 정수값을 안에 넣어주기 */}
                 
             {
                 글제목.map((a,i) => {
@@ -41,7 +62,6 @@ function App() {
                     <div className="list" key={i}>
                         <h4 onClick = {() => {
                             setModal(!modal);
-                            set누른제목(i);
                         }}
                         >{글제목[i]}
 
@@ -59,25 +79,17 @@ function App() {
             }
 
             {
-                modal === true
-                // <Modal 작명 = {전송할state} />
-                ? <Modal 글제목={글제목} 누른제목={누른제목}/> 
-                : null
+                modal === true?<Modal/> :null
             }
 
         </div>
     );
 }
-/*
-부모 -> 자식 state 전송하는 법 (자식->부모, 자식->자식 안됨)
-1. <자식컴포넌트 작명={state이름}>
-2. props 파라미터 등록 후 props.작명 사용
-*/
 
-function Modal(props){
+function Modal(){
     return(
         <div className="modal">
-            <h2>{props.글제목[props.누른제목]}</h2>
+            <h2>제목</h2>
             <p>날씨</p>
             <p>상세내용 </p>
         </div>
