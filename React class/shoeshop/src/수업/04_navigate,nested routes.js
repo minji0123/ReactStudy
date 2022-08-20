@@ -5,17 +5,24 @@ import {Routes,Route,Link,useNavigate,Outlet} from 'react-router-dom'
 
 import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 import './App.css';
-import data from './data.js';
-import DetailPage from './routes/DetailPage.js';
+import data from '../data.js';
+import DetailPage from '../routes/DetailPage.js';
 
 
 function App() {
 
   let [shoes] = useState(data);
+  // ------------------------
+  // useNavigate(): 페이지 이동 도와줌
+  // ------------------------
   let navigate = useNavigate();
-  // ------------------------
-  // url 파라미터
-  // ------------------------
+  /**
+   * onClick={() => {navigate('/')}} 이렇게 사용하면됨
+   * onClick={() => {navigate(1)}}  앞으로 한 페이지
+   * onClick={() => {navigate(-1)}}  뒤로 한 페이지
+   */
+  
+
 
   return (
     <div className="App">
@@ -53,14 +60,17 @@ function App() {
               </div>
             </div>
         </div>}/>
-
-        {/* url 파라미터
-                      /detail/아무거나 라는 뜻 */}
-        <Route path="/detail/:id" element={<DetailPage shoes={shoes}/>}/>
+        <Route path="/detail" element={<DetailPage/>}/>
 
         {/* Nested Routes 
         태그 안에 태그 넣는거임
         /about/member 이런거
+        --------------------------장점
+        1. route 간결해짐
+        2. 동시에 두개 보여줄 수 있음
+          /about/member 로 접속하면
+          about 랑 member element 동시에 보여줌(그냥은 아니고 뭐 해야되긴함)
+        --------------------------언제씀
         1. 여러 유사한 페이지 필요할 때 (뭔가 조금씩만 바뀔 때)
         2. 뒤로가기랑 페이지이동 편하게 해야 할 때
           */}
