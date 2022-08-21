@@ -83,10 +83,14 @@ function App() {
 }
 
 function Product(props){
+  let navigate = useNavigate();
+
   return(
     <>
       <div className="col-md-4">
-        <img src={`https://codingapple1.github.io/shop/shoes${(props.i)+1}.jpg`} width="80%" />
+        <Nav.Link onClick={() => {navigate(`/detail/${(props.i)}`)}}>
+          <img src={`https://codingapple1.github.io/shop/shoes${(props.i)+1}.jpg`} width="80%" />
+        </Nav.Link>
         <h4>{props.shoes[props.i].title}</h4>
         <p>{props.shoes[props.i].content}</p>
       </div>
