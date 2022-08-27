@@ -1,27 +1,70 @@
 import { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
-import {Nav} from "react-bootstrap";
- 
+
+/*
+컴포넌트는
+
+1. 생성이 될 수도 있고 (전문용어로 mount)
+2. 재렌더링이 될 수도 있고 (전문용어로 update)
+3. 삭제가 될 수도 있습니다. (전문용어로 unmount)
+
+각 사이클에 갈고리 + 코드 를 달아놔서
+원하는 사이클에 코드를 실행시킬 수 있다.
+
+*/
+
+// 구버전 갈고리 다는 법 (생성자 만드는거랑 비슷함) 
+// class Detail2 extends React.Component{
+//   componentDidMount(){
+//     // 컴포넌트 생성 시 여기 코드 실행 (mount)
+//   }
+//   componentDidUpdate(){
+//     // 컴포넌트 다시 로드 시 여기 코드 실행 (update)
+//   }
+//   componentWillUnmount(){
+//     // 컴포넌트 필요없어졌을 때 여기 코드 실행 (unmount)
+//   }
+// }
+
+
+
 function DetailPage(props){
   // 신버전 갈고리 다는 법
-  useEffect(() => {
-
+  useEffect(() => { // side Effect: 함수의 핵심기능과 상관없는 부가기능
+    // 컴포넌트 처음 실행 + 업데이트 될 때 여기 코드 실행
+    // html 랜더링이 다 되고 나서 실행이 되는 애임
+    // 여기에 넣으면 좋은 코드 종류
+    // 1. for 문 백만번 돌아야 되는 코드
+    // 2. 서버에서 데이터 가져오는 작업
+    // 3. 타이머 장착
     console.log('안녕');
     let timer = setTimeout(() => {setAlert(false)},2000);
    
     return() => {
         // useEffect 동작 전에 실행되는 코드는 여기 작성
+        // clean up function 이라고도 불림
+        // unmount 시 실행됨
         // ex) 기존 타이머는 제거해주세요, 배열 비워주세요, 기존 데이터요청은 제거ㄱ
         clearTimeout(timer);
+
     }
 
   },[])
+  // []: useEffect 실행조건을 넣을 수 있음
+  // 그래서 [] 를 넣어주면 mount 할 때만 실행하고, update 시에는 실행이안됨
+
+
+  // useEffect(() => { 
+  //   // moutn, update 시 실행
+  //   return() => {
+  //       // unmount 시 실행
+  //   }
+  // },[// 조건 넣으면 mount 할 때만 실행])
 
 
 
   let [count, setCount] = useState(0);
   let [alert, setAlert] = useState(true);
-  let [탭, 탭변경] = useState(0);
 
   // ------------------------
   // url 파라미터
@@ -38,21 +81,12 @@ function DetailPage(props){
     return x.id == id
   });
 
-  // ------------------------
-  // 탭 ui 만들기
-  // ------------------------
-  /**
-   * 동적 ui 만드는 법 복기
-   * 1. ui 디자인 만들어놓고
-   * 2. state 만들어놓고
-   * 3. state 에 따라서 ui 가 어떻게 보일지 만들어놓기
-   */
 
     return(
       <>
         <div className="container">
-          {/* {count}
-        <button onClick={()=>{ setCount(count+1) }}>버튼</button> */}
+          {count}
+        <button onClick={()=>{ setCount(count+1) }}>버튼</button>
 
         {
           alert === true?
@@ -74,33 +108,8 @@ function DetailPage(props){
             </div>
           </div>
         </div> 
-
-        <Nav variant="tabs"  defaultActiveKey="link0">
-          <Nav.Item>
-            <Nav.Link eventKey="link0">버튼0</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link1">버튼1</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link2">버튼2</Nav.Link>
-          </Nav.Item>
-        </Nav>
-
-        <TabContent 탭={탭}/>
       </>
     )
   }
 
-  function TabContent(props){
-    if (탭 === 0){
-      <div>내용0</div>
-    }
-    if (탭 === 1){
-      <div>내용1</div>
-    }
-    if (탭 === 2){
-      <div>내용2</div>
-    }
-  }
   export default DetailPage;

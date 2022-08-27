@@ -5,8 +5,8 @@ import {Routes,Route,Link,useNavigate,Outlet} from 'react-router-dom'
 
 import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 import './App.css';
-import data from './data.js';
-import DetailPage from './routes/DetailPage.js';
+import data from '../data.js';
+import DetailPage from '../routes/DetailPage.js';
 import axios from 'axios';
 
 function App() {
@@ -20,7 +20,14 @@ function App() {
   // ------------------------
   // ajax 통신!
   // ------------------------
-
+  /**
+   * ajax 쓰려면 옵션 3개 중 1개 선택
+   * 1. XMLHttpRequest
+   * 2. fetch()
+   * 3. axios**
+   * 
+   * npm install axios
+   */
 
   return (
     <div className="App">
@@ -61,6 +68,14 @@ function App() {
 
             {/* ajx 요청을 위한 버튼 
             버튼을 누르면 서버에서 데이터를 받아온 후, 화면에 뿌려줘야함*/}
+
+
+            {/* 문제1. 버튼 2번 누를 때 7,8,9 번 상품 갖고오려면? (버튼 누른 횟수 저장해두면 좋을 듯)
+                문제2. 버튼 3번 누를 때 상품 없다고 말해주기
+                문제3. 버튼 누르면 로딩중입니다. 글자 띄우기
+            */}
+
+
             <button onClick={() => {
               // ------------------------
               // 데이터 받을 때
@@ -73,6 +88,7 @@ function App() {
               .then((결과)=>{
                   // 성공했을때 실행
                   console.log(결과.data);
+
 
                   // 서버에서 갖고온 데이터를 shoes state 에 추가해주세여
                   let copy = [...shoes, ...결과.data]; // 1. 복사본 만들기 ([] 빠지고 알맹이만 남음 {}{}{} 얘네만)
@@ -93,6 +109,22 @@ function App() {
                     alert('상품 없다');
                   }
 
+              })
+
+              // ------------------------
+              // 데이터 전송할 때
+              // ------------------------
+              // axios.post('/url',{name:'kim'})
+
+              // ------------------------
+              // ajax 요청을 동시에 여러 개 해야 할 때
+              // ------------------------
+              Promise.all([axios.get('/url') ,axios.get('/url')  ])
+              .then(() => {
+                // 두개 다 성공 시
+              }) 
+              .catch(() => {
+                // 둘 중 하나 실패
               })
 
             }}>버튼</button>
