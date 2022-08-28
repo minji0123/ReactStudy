@@ -9,6 +9,20 @@
   background-position : center;
 }
 
+
+
+/*전환 애니메이션*/
+/*transition은 "해당 속성이 변할 때 서서히 변경해주세요~" 라는 뜻입니다.*/
+.start {
+  opacity : 0
+}
+.end {
+  opacity : 1;
+  transition : opacity 0.5s;
+}
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

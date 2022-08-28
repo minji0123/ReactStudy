@@ -1,49 +1,39 @@
 import { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import '../App.css';
-
+ 
 function DetailPage(props){
   // 신버전 갈고리 다는 법
   useEffect(() => {
-    // 탭 state 가 변할 때 end 부착
-    // end 를 저기 부착해주세여
-    setFade2('end')
+
     let timer = setTimeout(() => {setAlert(false)},2000);
    
     return() => {
         // useEffect 동작 전에 실행되는 코드는 여기 작성
         // ex) 기존 타이머는 제거해주세요, 배열 비워주세요, 기존 데이터요청은 제거ㄱ
         clearTimeout(timer);
-        setFade2('')
     }
 
   },[])
 
 
+
   let [count, setCount] = useState(0);
   let [alert, setAlert] = useState(true);
   let [tab, setTab] = useState(0);
-  let [fade2, setFade2] = useState('')
+
 
   // ------------------------
-  // 컴포넌트 전환 애니메이션
+  // url 파라미터
   // ------------------------
-  // [전환 애니메이션 만들기]
-  // 1. 부착하면 애니메이션 나오는 className 하나 만들고
-  // 2. 원할 때 부착하면 됨
-  // [부착하면 애니메이션 나오는 className 만들기]
-  // 1. css 에다가 동작 전 스타일 만들고
-  // 2. css 에다가 동작 후 스타일 만들고
-  // 3. className 에 transition 속성 추가하기
-
-
   // 유저가 url 파라미터에 입력한 걸 갖고올 때 사용하는 훅
   let {id} = useParams();
 
 
-  // 상품 순서를 가나다순으로 정렬하는 버튼
-  // 상세페이지가 불규칙해지는 문제 해결
+  // 상품 순서를 가나다순으로 정렬하는 버튼을 만들어버렸다고 가정합시다.
+  // 그럼 평소엔 /detail/0으로 접속하면 0번째 상품을 보여주니까 White and Black 이 뜰텐데
+  // 버튼 누른 후엔 /detail/0으로 접속하면 0번째 상품을 보여주니까 Grey Yordan 이 뜨겠군요.
+  // 이처럼 상세페이지가 불규칙해지는 문제는 이렇게 해결합시당
   let 찾은상품 = props.shoes.find(function(x){
     return x.id == id
   });
@@ -51,6 +41,12 @@ function DetailPage(props){
   // ------------------------
   // 탭 ui 만들기
   // ------------------------
+  /**
+   * 동적 ui 만드는 법 복기
+   * 1. ui 디자인 만들어놓고
+   * 2. state 만들어놓고
+   * 3. state 에 따라서 ui 가 어떻게 보일지 만들어놓기
+   */
 
   function clickBtn(n){
     setTab(n);
@@ -58,7 +54,10 @@ function DetailPage(props){
 
     return(
       <>
-        <div className={'container start ' + fade2}>
+        <div className="container">
+          {/* {count}
+        <button onClick={()=>{ setCount(count+1) }}>버튼</button> */}
+
         {
           alert === true?
           <div className="alert alert-warning sale">
@@ -66,6 +65,7 @@ function DetailPage(props){
           </div>
           : null
         }
+
           <div className="row">
             <div className="col-md-6">
               <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
@@ -96,32 +96,26 @@ function DetailPage(props){
     )
   }
 
-  // automatic batching 기능
-  // state 변경함수들이 연달아서 여러개 처리되어야한다면 
-  // state 변경함수를 다 처리하고 마지막에 한 번만 재렌더링됩니다. 
-  // 그래서 'end' 로 변경하는거랑 ' ' 이걸로 변경하는거랑 약간 시간차를 뒀습니다.
-  // 찾아보면 setTimeout 말고 flushSync() 이런거 써도 될 것 같기도 합니다. automatic batching을 막아줍니다.
- 
   function TabContent(props){
-    // 탭 state 가 변할 때 end 부착
-    let [fade, setFade] =useState('')
-    useEffect (() => {
-        setTimeout(() => {
-          // end 를 저기 부착해주세여
-        setFade('end')
-        },200);
-        
-        return() => {
-          //useEffect 실행하기 전에 실행되는 곳
-          clearTimeout()
-          setFade('')
-        }
-    },[props.tab])
-    return (
-      <div className={`start ${fade}`}>
-        { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.tab] }
-      </div>
-    )
+    if (props.tab === 0){
+      return <div>내용0</div>
+    }
+    if (props.tab === 1){
+      return <div>내용1</div>
+    }
+    if (props.tab === 2){
+      return <div>내용2</div>
+    }
   }
-
+// 팁1
+// 항목 하나만 받아올 수 있다.
+// function TabContent({tab, abc, sdf}){
+//   if (tab === 0){
+//     return <div>내용0</div>
+//   }
+// 팁2
+// array 에다가 넣어놓을 수도 있음
+// function TabContent(props){
+//   return [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div> ][props.탭]
+// }
   export default DetailPage;
