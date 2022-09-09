@@ -8,19 +8,25 @@ import './App.css';
 import data from './data.js';
 import DetailPage from './routes/DetailPage.js';
 import axios from 'axios';
+import Cart from './routes/Cart.js'
+
 
 function App() {
 
-  // 
   let [shoes,setShoes] = useState(data);
   let [clickCount,setClickCount] = useState(1);
   let navigate = useNavigate();
-  console.log('asdfdsfa',clickCount);
+  // console.log('asdfdsfa',clickCount);
 
   // ------------------------
-  // ajax 통신!
+  // Redux
+  // npm install @reduxjs/toolkit react-redux
+  // package.json 의 "react", "react-dom" => 이거 두개가 18.1.x 이상이면 사용가능.
+  // 18버전 이상이 아니면 저장한다음에 npm install 입력해주고 Redux 설치ㄱㄱ 
   // ------------------------
-
+  // Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능
+  // 1. store.js 파일생성 
+  // 2. index.js 가서 <Provider store = {store}> 해주기
 
   return (
     <div className="App">
@@ -28,12 +34,12 @@ function App() {
 
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">ReactShop</Navbar.Brand>
+          <Navbar.Brand >ReactShop</Navbar.Brand>
           <Nav className="me-auto">
             {/* 페이지 이동 버튼은 Link */}
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/Cart')}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -61,7 +67,7 @@ function App() {
 
             {/* ajx 요청을 위한 버튼 
             버튼을 누르면 서버에서 데이터를 받아온 후, 화면에 뿌려줘야함*/}
-            <button onClick={() => {
+            <Button variant="secondary" onClick={() => {
               // ------------------------
               // 데이터 받을 때
               // ------------------------
@@ -95,7 +101,7 @@ function App() {
 
               })
 
-            }}>버튼</button>
+            }}>more</Button>
         </div>
       }/>
 
@@ -103,6 +109,12 @@ function App() {
         {/* url 파라미터
                       /detail/아무거나 라는 뜻 */}
         <Route path="/detail/:id" element={<DetailPage shoes={shoes}/>}/>
+
+
+        {/* Redux
+
+        */}
+        <Route path="/cart" element={<Cart/>}/>
 
         {/* Nested Routes 
         태그 안에 태그 넣는거임

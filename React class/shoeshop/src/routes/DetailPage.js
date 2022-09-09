@@ -1,7 +1,11 @@
+/* eslint-disable */
 import { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
 import {Nav} from "react-bootstrap";
 import '../App.css';
+// import { changeName } from './../store/userSlice.js'// 3. 만든 함수 import 해서 사용
+import { changeItem, } from './../store.js'// 3. 만든 함수 import 해서 사용
 
 function DetailPage(props){
   // 신버전 갈고리 다는 법
@@ -52,6 +56,14 @@ function DetailPage(props){
   // 탭 ui 만들기
   // ------------------------
 
+
+
+  // 2. 상세페이지 주문하기 버튼을 누르면 새로운 상품이 state에 추가되는 기능
+  let 상품들 = useSelector((state) => {return state.cart})// <- Redux store 가져와줌(object 임)
+
+  let dispatch = useDispatch();// store.js 로 요청 보내주는 함수임
+
+  
   function clickBtn(n){
     setTab(n);
   }
@@ -71,10 +83,21 @@ function DetailPage(props){
               <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
             </div>
             <div className="col-md-6">
+              {/* <p aria-readonly></p> */}
               <h4 className="pt-5">{찾은상품.title}</h4>
               <p>{찾은상품.content}</p>
               <p>{찾은상품.price}원</p>
-              <button className="btn btn-danger">주문하기</button> 
+              {/* 2. 상세페이지 주문하기 버튼을 누르면 새로운 상품이 state에 추가되는 기능 */}
+              <button className="btn btn-danger" onClick={()=>{
+                  let param = {
+                    id:찾은상품.id,
+                    name:찾은상품.title,
+                    count:1,
+                  }
+                  dispatch(changeItem(param));
+              }}
+              >주문하기</button>
+
             </div>
           </div>
         </div> 
