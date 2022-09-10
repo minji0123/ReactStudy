@@ -1,4 +1,8 @@
 /* eslint-disable */
+/**
+ * redux 를 쓰면 state 를 보관하는 통이 하나 필요함
+ * 
+ */
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import user from './store/userSlice.js'
 // ----------------------------------------

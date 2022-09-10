@@ -9,13 +9,21 @@ function Cart(){
 
     let state = useSelector((state) => {return state})// <- Redux store 가져와줌(object 임)
                                         //state.user 처럼 원하는것만 return 가능 
+    // console.log(state.user);
+    // console.log(state.stock);
     let 상품들 = useSelector((state) => {return state.cart})// <- Redux store 가져와줌(object 임)
+    // console.log(상품들)
     let dispatch = useDispatch();// store.js 로 요청 보내주는 함수임
     
     return(
         <div>
 
             {state.user} 님 의 장바구니
+            {/* 나이: {state.stock.age}
+            <button onClick={() => {
+                            // 4. dispatch(state 변경함수())
+                            dispatch(changeAge(100));
+                    }}>+</button> */}
             <Table>
                 <thead>
                     <tr>

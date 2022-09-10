@@ -2,15 +2,13 @@
 import logo from './logo.svg';
 import {useEffect, useState} from "react"
 import {Routes,Route,Link,useNavigate,Outlet} from 'react-router-dom'
-import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 
+import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
 import DetailPage from './routes/DetailPage.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js'
-import { useQuery } from '@tanstack/react-query';
-
 
 
 function App() {
@@ -25,54 +23,57 @@ function App() {
   // Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능
   // 1. store.js 파일생성 
   // 2. index.js 가서 <Provider store = {store}> 해주기
-
+  
   // ------------------------
-  // localStorage
+  // 로컬스토리지
   // ------------------------
   /**
-   * 상세페이지에서 봤던 상품의 번호들을 localStorage 에 저장하기
-   * {watched : []}
-   * - 
+   * 새로고침하면 브라우저는 html css js 파일들을 첨부터 다시 읽는다.
+   * 그래서 새로고침하면 모든 state 가 리셋된다.
+   * 
+   * 이게 싫으면 두 가지 방법이 있움
+   * 1. state 데이터를 서버로 보내서 db 에 저장하기
+   * 2. localStorage 이용하기
+   * ------------------------
+   * 크롬개발자 도구> Application 탭
+   * [localStorage]
+   * - 사이트마다 5MB 정도의 문자 데이터를 저장할 수 있습니다. (으마으마한 양임)
+   * - object 자료랑 비슷하게 key/value 형태로 저장합니다.
+   * - 유저가 브라우저 청소를 하지 않는 이상 영구적으로 남아있습니다. (껏다 켜도 ㄱㅊ)
+   * [SessionStorage]
+   * - localStorage랑 똑같은데 
+   * - 근데 브라우저 끄면 삭제됨
+   * ------------------------
+   * 편법을 쓰면 Reference type 도 저장 가능!
+   * Reference -> json 으로 바꾸면 됨
    */
+  // let obj = {name : 'kim'};
+  // JSON.stringify(obj); // <--- json 으로 바꿈!
+  // localStorage.setItem('data',JSON.stringify(obj));
+
+  // let 꺼낸거 = localStorage.getItem('data');
+  // console.log(JSON.parse(꺼낸거).name);
+
+
+
+/**
+ * 숙제
+ * 상세페이지에서 봤던 상품의 번호들을 localStorage 에 저장하기
+ * {watched : []}
+ * - 중복번호 막기 (set)
+ * - 
+ */
   useEffect(()=>{
     if(localStorage.getItem('watched').length <0)
       localStorage.setItem('watched',JSON.stringify([]))
 
   },[]);
 
-
-  // ------------------------
-  // ReactQuery
-  // ------------------------
   /**
-   * 수 초마다 자동으로 데이터 자동 가져오기를 할 때 필요
-   * sns, 비트코인, 주식 같은거 할 때 필요
-   * ------------------------
-   * npm install @tanstack/react-query 
-   * index.js 가서 const queryClient = new QueryClient();
-   * index.js 가서 <QueryClientProvider client={queryClient}>
-   * ------------------------
-   *
-   * https://codingapple1.github.io/userdata.json
-   * 장점
-   * 1. 성공/실패/로딩중 쉽게 파악 가능
-   *       { result.isLoading && '로딩중' }
-            { result.error && '에러남' }
-            { result.data && result.data.name }
-   * 2. 틈만나면 자동으로 재요청해줌 (refetch)
-   * 3. 실패시 재시도 몇번 해줌
-   * 4. state 공유 안해도됨         
-   * 똑같은 데이터를 여러 군데에서 요청 할 때 ajax 를 딱 한번만 탄다.
-   * 5. ajax 결과 캐싱 기능
-   *  5분정도 결과저장해놓음 ==> 그래서 더 빠름!
+   * 모든 state 를 localStorage 에 자동저장 시키고 싶으면
+   * redux-persist 라이브러리 쓰면 됨
+   * Jotal Zustand 도 있긴한데 취업안됨
    */
-
-    let result = useQuery(['작명'], ()=>
-      axios.get('https://codingapple1.github.io/userdata.json')
-      .then((a)=>{ return a.data }),
-      {stealTime : 2000} // 2초마다 refetch
-    )
-
 
   
   return (
@@ -83,14 +84,8 @@ function App() {
           <Nav className="me-auto">
             {/* 페이지 이동 버튼은 Link */}
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
-            {/* <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link> */}
-            <Nav.Link href="#container">Detail</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
             <Nav.Link onClick={() => {navigate('/Cart')}}>Cart</Nav.Link>
-          </Nav>
-          <Nav className="ms-auto white" >
-          { result.isLoading && '로딩중' }
-          { result.error && '에러남' }
-          { result.data && result.data.name } 님 반갑습니다.
           </Nav>
         </Container>
       </Navbar>
@@ -103,7 +98,7 @@ function App() {
         <Route path="/" element={
         <div>
           <div className="main-bg"></div>
-            <div className="container" id='container' >
+            <div className="container">
               <div className="row">
                 {
                   shoes.map((a,i)=>{

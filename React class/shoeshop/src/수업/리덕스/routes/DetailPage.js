@@ -52,6 +52,10 @@ function DetailPage(props){
     return x.id == id
   });
 
+  // ------------------------
+  // 탭 ui 만들기
+  // ------------------------
+
 
 
   // 2. 상세페이지 주문하기 버튼을 누르면 새로운 상품이 state에 추가되는 기능
@@ -60,30 +64,6 @@ function DetailPage(props){
   let dispatch = useDispatch();// store.js 로 요청 보내주는 함수임
 
   
-
-
-  //  * 상세페이지에서 봤던 상품의 번호들을 localStorage 에 저장하기
-  useEffect(()=>{
-    // 일단 꺼내고 변환해주고 밀어넣은다음에 집어넣는다.
-    // 일단 get 하고 parse 해주고 push 해준다음에 set 해준다.
-
-
-    // 일단 get 하고
-    let watched2 = localStorage.getItem('watched');
-    // parse 해주고
-    watched2 = JSON.parse(watched2);
-    // push 해준다음에
-    watched2.push(찾은상품.id);
-    
-    // 근데 중복제거 해주고 싶으니까 set 함수를 사용한다.
-    watched2 = new Set(watched2);
-    watched2 = Array.from(watched2);
-
-    // set 해준다.
-    localStorage.setItem('watched', JSON.stringify(watched2));
-  },[]);
-
-
   function clickBtn(n){
     setTab(n);
   }

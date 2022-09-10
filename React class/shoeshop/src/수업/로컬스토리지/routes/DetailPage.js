@@ -63,6 +63,7 @@ function DetailPage(props){
 
 
   //  * 상세페이지에서 봤던 상품의 번호들을 localStorage 에 저장하기
+
   useEffect(()=>{
     // 일단 꺼내고 변환해주고 밀어넣은다음에 집어넣는다.
     // 일단 get 하고 parse 해주고 push 해준다음에 set 해준다.

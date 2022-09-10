@@ -21,7 +21,9 @@
   transition : opacity 0.5s;
 }
 
-
+.white{
+  color:white;
+}
 
 .App-logo {
   height: 40vmin;

@@ -1,16 +1,14 @@
 /* eslint-disable */
 import logo from './logo.svg';
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {Routes,Route,Link,useNavigate,Outlet} from 'react-router-dom'
-import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 
+import {Button,Navbar,Container, Nav} from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
 import DetailPage from './routes/DetailPage.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js'
-import { useQuery } from '@tanstack/react-query';
-
 
 
 function App() {
@@ -18,79 +16,30 @@ function App() {
   let [shoes,setShoes] = useState(data);
   let [clickCount,setClickCount] = useState(1);
   let navigate = useNavigate();
+  // console.log('asdfdsfa',clickCount);
 
   // ------------------------
   // Redux
+  // npm install @reduxjs/toolkit react-redux
+  // package.json 의 "react", "react-dom" => 이거 두개가 18.1.x 이상이면 사용가능.
+  // 18버전 이상이 아니면 저장한다음에 npm install 입력해주고 Redux 설치ㄱㄱ 
   // ------------------------
   // Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능
   // 1. store.js 파일생성 
   // 2. index.js 가서 <Provider store = {store}> 해주기
 
-  // ------------------------
-  // localStorage
-  // ------------------------
-  /**
-   * 상세페이지에서 봤던 상품의 번호들을 localStorage 에 저장하기
-   * {watched : []}
-   * - 
-   */
-  useEffect(()=>{
-    if(localStorage.getItem('watched').length <0)
-      localStorage.setItem('watched',JSON.stringify([]))
-
-  },[]);
-
-
-  // ------------------------
-  // ReactQuery
-  // ------------------------
-  /**
-   * 수 초마다 자동으로 데이터 자동 가져오기를 할 때 필요
-   * sns, 비트코인, 주식 같은거 할 때 필요
-   * ------------------------
-   * npm install @tanstack/react-query 
-   * index.js 가서 const queryClient = new QueryClient();
-   * index.js 가서 <QueryClientProvider client={queryClient}>
-   * ------------------------
-   *
-   * https://codingapple1.github.io/userdata.json
-   * 장점
-   * 1. 성공/실패/로딩중 쉽게 파악 가능
-   *       { result.isLoading && '로딩중' }
-            { result.error && '에러남' }
-            { result.data && result.data.name }
-   * 2. 틈만나면 자동으로 재요청해줌 (refetch)
-   * 3. 실패시 재시도 몇번 해줌
-   * 4. state 공유 안해도됨         
-   * 똑같은 데이터를 여러 군데에서 요청 할 때 ajax 를 딱 한번만 탄다.
-   * 5. ajax 결과 캐싱 기능
-   *  5분정도 결과저장해놓음 ==> 그래서 더 빠름!
-   */
-
-    let result = useQuery(['작명'], ()=>
-      axios.get('https://codingapple1.github.io/userdata.json')
-      .then((a)=>{ return a.data }),
-      {stealTime : 2000} // 2초마다 refetch
-    )
-
-
-  
   return (
     <div className="App">
+
+
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand >ReactShop</Navbar.Brand>
           <Nav className="me-auto">
             {/* 페이지 이동 버튼은 Link */}
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
-            {/* <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link> */}
-            <Nav.Link href="#container">Detail</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
             <Nav.Link onClick={() => {navigate('/Cart')}}>Cart</Nav.Link>
-          </Nav>
-          <Nav className="ms-auto white" >
-          { result.isLoading && '로딩중' }
-          { result.error && '에러남' }
-          { result.data && result.data.name } 님 반갑습니다.
           </Nav>
         </Container>
       </Navbar>
@@ -103,7 +52,7 @@ function App() {
         <Route path="/" element={
         <div>
           <div className="main-bg"></div>
-            <div className="container" id='container' >
+            <div className="container">
               <div className="row">
                 {
                   shoes.map((a,i)=>{
