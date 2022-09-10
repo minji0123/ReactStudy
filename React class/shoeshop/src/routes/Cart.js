@@ -15,7 +15,7 @@ function Cart(){
     return(
         <div>
 
-            {state.user} 님 의 장바구니
+            {/* {state.user} 님 의 장바구니 */}
             <Table>
                 <thead>
                     <tr>
@@ -33,17 +33,17 @@ function Cart(){
                                     <td>{상품들[i].id}</td>
                                     <td>{상품들[i].name}</td>
                                     <td>{상품들[i].count}
-                                    <Button variant="outline-secondary" onClick={() => {
+                                    <Button className='ml_3 mr-3 border_none' variant="outline-secondary" onClick={() => {
                                         // 1. + 버튼을 누르면 해당 상품의 수량부분이 +1 되는 기능
                                         dispatch(changeCount(상품들[i].id));
                                     }}>+</Button>
-                                    <Button variant="outline-danger" onClick={() => {
+                                    <Button className='border_none' variant="outline-danger" onClick={() => {
                                         dispatch(changeCountMinus(상품들[i].id));
                                     }}>-</Button>
                                     </td>
 
                                     <td>
-                                        <Button variant="outline-primary" onClick={() => {
+                                        <Button className='border_none' variant="outline-primary" onClick={() => {
                                             dispatch(changeItemDel(상품들[i].id));
                                         }}>삭제하기</Button>
                                     </td>

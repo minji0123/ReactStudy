@@ -8,17 +8,21 @@ import '../App.css';
 import { changeItem, } from './../store.js'// 3. 만든 함수 import 해서 사용
 
 function DetailPage(props){
+  function cartTimer(){
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false)
+    },2000);
+  }
   // 신버전 갈고리 다는 법
   useEffect(() => {
     // 탭 state 가 변할 때 end 부착
     // end 를 저기 부착해주세여
     setFade2('end')
-    let timer = setTimeout(() => {setAlert(false)},2000);
    
     return() => {
         // useEffect 동작 전에 실행되는 코드는 여기 작성
         // ex) 기존 타이머는 제거해주세요, 배열 비워주세요, 기존 데이터요청은 제거ㄱ
-        clearTimeout(timer);
         setFade2('')
     }
 
@@ -26,7 +30,7 @@ function DetailPage(props){
 
 
   let [count, setCount] = useState(0);
-  let [alert, setAlert] = useState(true);
+  let [alert, setAlert] = useState(false);
   let [tab, setTab] = useState(0);
   let [fade2, setFade2] = useState('')
 
@@ -91,10 +95,13 @@ function DetailPage(props){
     return(
       <>
         <div className={'container start ' + fade2}>
+        {/* <div className="alert alert-warning sale">
+          장바구니에 상품이 담겼습니다.
+        </div> */}
         {
           alert === true?
           <div className="alert alert-warning sale">
-            2초이내 구매 시 할인 
+            장바구니에 상품이 담겼습니다. 
           </div>
           : null
         }
@@ -103,7 +110,6 @@ function DetailPage(props){
               <img src={`https://codingapple1.github.io/shop/shoes${parseInt(id)+1}.jpg`} width="100%" />
             </div>
             <div className="col-md-6">
-              {/* <p aria-readonly></p> */}
               <h4 className="pt-5">{찾은상품.title}</h4>
               <p>{찾은상품.content}</p>
               <p>{찾은상품.price}원</p>
@@ -115,6 +121,7 @@ function DetailPage(props){
                     count:1,
                   }
                   dispatch(changeItem(param));
+                  cartTimer();
               }}
               >주문하기</button>
 
@@ -122,15 +129,15 @@ function DetailPage(props){
           </div>
         </div> 
 
-        <Nav variant="tabs"  defaultActiveKey="link0">
+        <Nav variant="tabs" defaultActiveKey="link0"  >
           <Nav.Item>
-            <Nav.Link onClick={() => {clickBtn(0)}} eventKey="link0">버튼0</Nav.Link>
+            <Nav.Link className="black" onClick={() => {clickBtn(0)}} eventKey="link0">버튼0</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={() => {clickBtn(1)}} eventKey="link1">버튼1</Nav.Link>
+            <Nav.Link className="black" onClick={() => {clickBtn(1)}} eventKey="link1">버튼1</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={() => {clickBtn(2)}} eventKey="link2">버튼2</Nav.Link>
+            <Nav.Link className="black" onClick={() => {clickBtn(2)}} eventKey="link2">버튼2</Nav.Link>
           </Nav.Item>
         </Nav>
 

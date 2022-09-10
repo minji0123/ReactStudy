@@ -35,7 +35,7 @@ function App() {
    * - 
    */
   useEffect(()=>{
-    if(localStorage.getItem('watched').length <0)
+    if(!localStorage.getItem('watched'))
       localStorage.setItem('watched',JSON.stringify([]))
 
   },[]);
@@ -83,15 +83,16 @@ function App() {
           <Nav className="me-auto">
             {/* 페이지 이동 버튼은 Link */}
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
-            {/* <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link> */}
-            <Nav.Link href="#container">Detail</Nav.Link>
+            {/* <Nav.Link onClick={() => {navigate('/#container')}}>Detail</Nav.Link> */}
+            {/* <Nav.Link href="#container">Detail</Nav.Link> */}
             <Nav.Link onClick={() => {navigate('/Cart')}}>Cart</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/about')}}>About</Nav.Link>
           </Nav>
-          <Nav className="ms-auto white" >
+          {/* <Nav className="ms-auto white" >
           { result.isLoading && '로딩중' }
           { result.error && '에러남' }
           { result.data && result.data.name } 님 반갑습니다.
-          </Nav>
+          </Nav> */}
         </Container>
       </Navbar>
 
@@ -103,7 +104,9 @@ function App() {
         <Route path="/" element={
         <div>
           <div className="main-bg"></div>
-            <div className="container" id='container' >
+
+          <div className='row'>
+            <div className="container mt_100 mb_50 col-md-8" id='container' >
               <div className="row">
                 {
                   shoes.map((a,i)=>{
@@ -114,11 +117,15 @@ function App() {
                   })
                 }
               </div>
+
             </div>
 
+            {/* <LatelyProduct></LatelyProduct> */}
+
+          </div>
             {/* ajx 요청을 위한 버튼 
             버튼을 누르면 서버에서 데이터를 받아온 후, 화면에 뿌려줘야함*/}
-            <Button variant="secondary" onClick={() => {
+            <Button variant="secondary" className="mb_200" onClick={() => {
               // ------------------------
               // 데이터 받을 때
               // ------------------------
@@ -145,10 +152,12 @@ function App() {
               .catch(() => {
                   // 실패했을때 실행
                   console.log('실패함ㅅㄱ');
+                  alert('상품 없다');
+
                   // 여기다 로딩중 숨기기
-                  if(clickCount >3){
-                    alert('상품 없다');
-                  }
+                  // if(clickCount >3){
+                  //   alert('상품 없다');
+                  // }
 
               })
 
@@ -196,7 +205,7 @@ function Product(props){
 
   return(
     <>
-      <div className="col-md-4">
+      <div className="col-md-4 mb_100">
         <Nav.Link onClick={() => {navigate(`/detail/${(props.i)}`)}}>
           <img src={`https://codingapple1.github.io/shop/shoes${(props.i)+1}.jpg`} width="80%" />
         </Nav.Link>
@@ -206,6 +215,19 @@ function Product(props){
     </>
   )
 }
+
+function LatelyProduct(){
+  let navigate = useNavigate();
+
+  return(
+    <>
+      <div className='col-md-2 mt_100 sticky'>
+        dfad
+      </div>
+    </>
+  )
+}
+
 function AboutPage(){
   return(
     <div>
